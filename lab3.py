@@ -41,10 +41,21 @@ Epochs = 3 # number of training epochs
 # iterate over the training data (trainset)
 for epoch in range(Epochs):
     for data in trainset:
-        print(data)
         X, y = data # assign input (X) and labels (y)
         net.zero_grad() # set gradiant stored to zero to reset gradient value for each iteration
         output = net.forward(X.view(-1,28*28)) # transform 2 dimensional tensor (28x28 matrix) input to 1 dimension (784 vector)
         loss = F.nll_loss(output, y) # loss function (cross-entropy sicne we are working w classifier)
         loss.backward() # compute gradient wrt loss function over each parameter of the network (must set gradient to 0, line 46)
         optimiser.step() # update parameters of the network according to the optimisation alg and gradient stored within each variable
+
+correct, total = 0, 0
+
+with torch.no_grad():
+    for data in testset:
+        X, y = data
+        output = net.forward(X.view(-1, 28*28))
+        for idx, i in enumerate(output):
+            if torch.argmax(i) == y[idx]:
+                correct += 1
+            total += 1
+print("Accuracy: ", round(correct/total, 3))
