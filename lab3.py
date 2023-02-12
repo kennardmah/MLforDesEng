@@ -14,19 +14,30 @@ testset = torch.utils.data.DataLoader(test, batch_size = 10, shuffle = True)
 # output of 10 units
 # why 64?
 
+n = 128
+
 class Net(nn.Module):
     def __init__(self):
         super().__init__()
-        self.fc1 = nn.Linear(28*28, 64) # creating a layer of 64 neurons with 28*28 inputs
-        self.fc2 = nn.Linear(64, 64) # nn.Linear is an affine trasformation
-        self.fc3 = nn.Linear(64, 64)
-        self.fc4 = nn.Linear(64, 10)
+        self.fc1 = nn.Linear(28*28, n) # creating a layer of n neurons with 28*28 inputs
+        self.fc2 = nn.Linear(n, n) # nn.Linear is an affine trasformation
+        self.fc3 = nn.Linear(n, n)
+        self.fc4 = nn.Linear(n, n)
+        self.fc5 = nn.Linear(n, 10)
 
     def forward(self, x):
-        x = torch.sigmoid(self.fc1(x))
+        x = torch.sigmoid(self.fc1(x)) # 0.103 (64 neurons)
         x = torch.sigmoid(self.fc2(x))
         x = torch.sigmoid(self.fc3(x))
-        x = self.fc4(x) # why not sigmoid?
+        # x = torch.sigmoid(self.fc4(x)) # better accuracy without fourth layer
+        # x = F.relu(self.fc1(x)) # 0.118 (64 neurons)
+        # x = F.relu(self.fc2(x))
+        # x = F.relu(self.fc3(x))
+        # x = torch.tanh(self.fc1(x)) # 0.411 (64 neurons), 0.47 (128 neurons), 0.353 (200 neurons)
+        # x = torch.tanh(self.fc2(x))
+        # x = torch.tanh(self.fc3(x))
+        # x = torch.tanh(self.fc4(x)) # 0.442 (128 neurons, 4 hidden layers)
+        x = self.fc5(x)
 
         # computes to softmax function of given input
         return F.softmax(x, dim = 1)
@@ -35,7 +46,9 @@ class Net(nn.Module):
 net = Net()
 
 # sets up optimisation method for backpropagation alg
-optimiser = optim.SGD(net.parameters(), lr = 0.001) # SGD (Stoachastic Gradient Descent)
+# optimiser = optim.SGD(net.parameters(), lr = 0.001) # SGD (Stoachastic Gradient Descent)
+optimiser = optim.Adam(net.parameters(), lr = 0.001) # Adam (increases Accuracy drastically)
+
 Epochs = 3 # number of training epochs
 
 # iterate over the training data (trainset)
