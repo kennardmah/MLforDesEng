@@ -37,7 +37,7 @@ Y_Test = np.array([X[:,0]|X[:, 1]]).T # OR
 
 # define learning_rate and epochs iteration number
 learning_rate = [0.01, 1, 2, 3]
-n_iterations = 500
+n_iterations = 1000
 leg = []
 
 for i in range(len(learning_rate)): # test with multiple learning_rates
@@ -48,7 +48,17 @@ for i in range(len(learning_rate)): # test with multiple learning_rates
         B += learning_rate[i] * diff_B(X, output, Y, B, W) # update bias parameter
         errors.append(np.sum(np.sqrt((Y-output)**2), axis = 0))
     plt.plot(range(n_iterations), errors)
-    leg.append(str(learning_rate[i]))
+    # evaluate model using training set
+    leg.append(str(learning_rate[i]), np.sum(np.sqrt((Y_Test-sigm(X_Test, W, B))**2), axis = 0))
+    W = np.random.randn(1,2) # 2 random weights (mean 0 variance 1)
+    B = np.random.randn(1) # random bias
+
+# evaluate the model on the testing set
+test_output = sigm(X_Test, W, B)
+print(test_output, Y_Test)
+test_error = np.sum(np.sqrt((Y_Test-test_output)**2), axis = 0)
+
+print("Test error:", test_error)
 
 plt.legend(leg)
 plt.xlabel('Epoch')
