@@ -25,14 +25,14 @@ def diff_B(X, Z, Y, B, W):
 
 # create training set
 X = np.random.randint(2, size = [15,2]) # random inputs (0 or 1)
-Y = np.array([X[:,0]|X[:,1]]).T # OR
-# Y = np.array([X[:,0]&X[:,1]]).T # AND
+# Y = np.array([X[:,0]|X[:,1]]).T # OR
+Y = np.array([X[:,0]&X[:,1]]).T # AND
 # Y = np.array([X[:,0]^X[:,1]]).T # XOR
 
 # create testing set
 X_Test = np.random.randint(2, size = [15,2])
-Y_Test = np.array([X[:,0]|X[:, 1]]).T # OR
-# Y_Test = np.array([X[:,0]&X[:,1]]).T # AND
+# Y_Test = np.array([X[:,0]|X[:, 1]]).T # OR
+Y_Test = np.array([X[:,0]&X[:,1]]).T # AND
 # Y_Test = np.array([X[:,0]^X[:,1]]).T # XOR
 
 # define learning_rate and epochs iteration number
@@ -49,7 +49,7 @@ for i in range(len(learning_rate)): # test with multiple learning_rates
         errors.append(np.sum(np.sqrt((Y-output)**2), axis = 0))
     plt.plot(range(n_iterations), errors)
     # evaluate model using training set
-    leg.append(str(learning_rate[i]), np.sum(np.sqrt((Y_Test-sigm(X_Test, W, B))**2), axis = 0))
+    leg.append('lr:' + str(learning_rate[i]) + 'test error:' + str(np.sum(np.sqrt((Y_Test-sigm(X_Test, W, B))**2), axis = 0)))
     W = np.random.randn(1,2) # 2 random weights (mean 0 variance 1)
     B = np.random.randn(1) # random bias
 

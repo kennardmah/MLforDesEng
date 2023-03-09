@@ -51,7 +51,6 @@ for i in range(len(learning_rate_set)):
     Accuracy_set = []
     for epoch in range(epoch_val):
         Y, H = Forward(X, W1, B1, W2, B2)
-
         W2 += learning_rate * diff_W2(H,Z,Y).T
         B2 += learning_rate * diff_B2(Z,Y)
         W1 += learning_rate * diff_W1(X,H,Z,Y,W2).T
