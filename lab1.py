@@ -42,6 +42,8 @@ leg = []
 
 for i in range(len(learning_rate)): # test with multiple learning_rates
     errors = []
+    W = np.random.randn(1,2) # 2 random weights (mean 0 variance 1)
+    B = np.random.randn(1) # random bias
     for epoch in range(n_iterations): # repeat n_iterations to see how errors respond
         output = sigm(X, W, B)
         W += learning_rate[i] * diff_W(X, output, Y, B, W).T # update weight parameter
@@ -50,8 +52,6 @@ for i in range(len(learning_rate)): # test with multiple learning_rates
     plt.plot(range(n_iterations), errors)
     # evaluate model using training set
     leg.append('lr:' + str(learning_rate[i]) + 'test error:' + str(np.sum(np.sqrt((Y_Test-sigm(X_Test, W, B))**2), axis = 0)))
-    W = np.random.randn(1,2) # 2 random weights (mean 0 variance 1)
-    B = np.random.randn(1) # random bias
 
 # evaluate the model on the testing set
 test_output = sigm(X_Test, W, B)
