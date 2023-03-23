@@ -1,4 +1,7 @@
-# MLforDesEng
+## MLforDesEng
+
+This repository contains an information and notes for the "Machine Learning for Design Engineers" module offered at Imperial College London.
+The module is assessed in three categories: two written reports (15%), lab exam (15%), and final exam (70%). In this repo, you'll find my notes for the course as well as an in-depth analysis of each labs to prepare for the lab exam. You can also find the written reports attached.
 
 #### Lab 1 - Building an ANN (Artificial Neural Network) with a sigmoid activation function and backpropagation
 
